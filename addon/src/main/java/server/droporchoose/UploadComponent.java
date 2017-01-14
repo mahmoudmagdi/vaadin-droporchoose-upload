@@ -101,6 +101,7 @@ public class UploadComponent extends DragAndDropWrapper {
 	 * Called when a upload has started.
 	 * 
 	 * @param fileName
+	 *            name of the received file
 	 */
 	protected void uploadStarted(String fileName) {
 		lastFileName = fileName;
@@ -113,6 +114,7 @@ public class UploadComponent extends DragAndDropWrapper {
 	 * Called on progress of an upload.
 	 * 
 	 * @param fileName
+	 *            name of the received file
 	 * @param readBytes
 	 *            current uploaded bytes
 	 * @param contentLength
@@ -128,8 +130,10 @@ public class UploadComponent extends DragAndDropWrapper {
 	 * Called when a new file upload is received.
 	 * 
 	 * @param filename
+	 *            name of the received file
 	 * @param mimeType
-	 * @return
+	 *            file type of the received file
+	 * @return A Outputstream the file can be written to.
 	 */
 	protected OutputStream receiveUpload(String filename, String mimeType) {
 		Path filePath = tempFolder.resolve(filename);
@@ -141,6 +145,7 @@ public class UploadComponent extends DragAndDropWrapper {
 	 * Called when a Upload has finished.
 	 * 
 	 * @param fileName
+	 *            name of the received file
 	 */
 	protected void uploadFinished(String fileName) {
 		Path filePath = uploadedFiles.get(fileName);
@@ -152,6 +157,7 @@ public class UploadComponent extends DragAndDropWrapper {
 	 * Called when a Upload has failed.
 	 * 
 	 * @param fileName
+	 *            name of the file where the upload failed
 	 */
 	protected void uploadFailed(String fileName) {
 		if (failedCallback != null) {
@@ -164,10 +170,12 @@ public class UploadComponent extends DragAndDropWrapper {
 	 * Builds the {@link OutputStream} for the uploaded file to be saved to.
 	 * 
 	 * This can by changed e.g. to a {@link ByteArrayOutputStream} to save it to
-	 * memory.
+	 * memory. But than you need to take care of retrieving the file yourself
+	 * after the upload.
 	 * 
 	 * @param filePath
-	 * @return
+	 *            where the file should be stored
+	 * @return A Outputstream the file can be written to.
 	 */
 	protected OutputStream getOutputStream(Path filePath) {
 		try {
@@ -181,7 +189,7 @@ public class UploadComponent extends DragAndDropWrapper {
 	/**
 	 * Generates to name of the temporary uploaded file.
 	 * 
-	 * @return
+	 * @return filename that should be used the temporary file
 	 */
 	protected String generatedTempFileName() {
 		return UUID.randomUUID().toString();
@@ -192,7 +200,7 @@ public class UploadComponent extends DragAndDropWrapper {
 	 * 
 	 * Default: java.io.tmpdir
 	 * 
-	 * @return
+	 * @return the folder where the uploads are stored
 	 */
 	public Path getTempFolder() {
 		return tempFolder;
@@ -204,6 +212,7 @@ public class UploadComponent extends DragAndDropWrapper {
 	 * Default: java.io.tmpdir
 	 * 
 	 * @param tempFolder
+	 *            the folder where the upload should be stored
 	 */
 	public void setTempFolder(Path tempFolder) {
 		this.tempFolder = tempFolder;
@@ -244,7 +253,7 @@ public class UploadComponent extends DragAndDropWrapper {
 	/**
 	 * The {@link Label} on the left that gives to hint for dropping files.
 	 * 
-	 * @return
+	 * @return the {@link Label} with the drop hint on the left
 	 */
 	public Label getDropTextLabel() {
 		return dropTextLabel;
@@ -253,7 +262,7 @@ public class UploadComponent extends DragAndDropWrapper {
 	/**
 	 * The "normal" {@link Upload} component on the right.
 	 * 
-	 * @return
+	 * @return the {@link Upload} component on the right.
 	 */
 	public Upload getChoose() {
 		return upload;
@@ -262,7 +271,7 @@ public class UploadComponent extends DragAndDropWrapper {
 	/**
 	 * The {@link HorizontalLayout} for positioning the components.
 	 * 
-	 * @return
+	 * @return layout that contains the components
 	 */
 	public HorizontalLayout getLayout() {
 		return panelContent;
@@ -281,6 +290,7 @@ public class UploadComponent extends DragAndDropWrapper {
 	 * Handler for progress events.
 	 * 
 	 */
+	@FunctionalInterface
 	public interface UploadProgressHandler {
 		void uploadProgress(String fileName, long readBytes, long contentLength);
 	}
@@ -289,6 +299,7 @@ public class UploadComponent extends DragAndDropWrapper {
 	 * Handler for started events.
 	 * 
 	 */
+	@FunctionalInterface
 	public interface UploadStartedHandler {
 		void uploadStarted(String fileName);
 	}
@@ -297,6 +308,7 @@ public class UploadComponent extends DragAndDropWrapper {
 	 * Handler for failed upload events.
 	 * 
 	 */
+	@FunctionalInterface
 	public interface UploadFailedHandler {
 		void uploadFailed(String fileName);
 	}
