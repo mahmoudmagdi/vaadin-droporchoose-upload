@@ -1,0 +1,53 @@
+plugins {
+    // Use the maven plugin to generate to addon pom.xml for the Vaadin Directory
+    id "maven"
+
+    // Uncomment this if Vaadin plugin is not applied in the parent module
+    // id "fi.jasoft.plugin.vaadin" version "1.1.1"
+}
+
+// Apply the Vaadin plugin
+apply plugin: 'fi.jasoft.plugin.vaadin'
+
+// Specify a version for the addon, this can also be done in the
+// parent build.gradle if you want the version to be the same for all projects
+version = '1.0'
+
+// Build for Java 8+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+// We are only interested in the addon jar
+artifacts {
+    archives jar
+}
+
+// Vaadin configuration
+vaadin {
+	version '7.7.6'
+    // Addon metadata for the Vaadin Directory
+    addon {
+      author 'Sebastian Sindelar'
+      license 'Apache 2.0'
+      title 'Drop or Choose Upload'
+    }
+}
+
+// Creates the addon POM for the directory
+task createAddonPom {
+    pom { artifactId = 'droporchooseupload' }.writeTo(
+        "${sourceSets.main.output.resourcesDir}/META-INF/maven/server/droporchooseupload/pom.xml"
+    )
+}
+
+jar {
+    // Addon artifact name
+    baseName = 'droporchooseupload'
+
+    // Include the addon pom.xml for the Vaadin Directory
+    dependsOn createAddonPom
+
+    // Usually it is a good idea to include the sources of the addon so the
+    // addon user can compile their widgetset
+    sourceSets.main.java.srcDirs.each {from it }
+}
