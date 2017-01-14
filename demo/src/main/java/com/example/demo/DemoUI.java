@@ -44,11 +44,11 @@ public class DemoUI extends UI{
 
 	private void uploadProgress(String fileName, long readBytes, long contentLength) {
 		Notification.show(String.format("Progress: %s : %d/%d", fileName, readBytes, contentLength),
-				Type.HUMANIZED_MESSAGE);
+				Type.TRAY_NOTIFICATION);
 	}
 
-	private void uploadFailed(String fileName) {
-		Notification.show("Upload failed: " + fileName);
+	private void uploadFailed(String fileName, Path file) {
+		Notification.show("Upload failed: " + fileName, Type.ERROR_MESSAGE);
 	}
 
 }
