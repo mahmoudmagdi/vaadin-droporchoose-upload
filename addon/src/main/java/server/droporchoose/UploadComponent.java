@@ -76,7 +76,7 @@ public class UploadComponent extends DragAndDropWrapper {
 		panel.setSizeFull();
 		panel.setContent(panelContent);
 
-		dropTextLabel.setWidthUndefined();
+		dropTextLabel.setSizeUndefined();
 		dropTextLabel.addStyleName("doc-drophint");
 
 		upload.setImmediate(true);
@@ -136,7 +136,7 @@ public class UploadComponent extends DragAndDropWrapper {
 	 * @return A Outputstream the file can be written to.
 	 */
 	protected OutputStream receiveUpload(String filename, String mimeType) {
-		Path filePath = tempFolder.resolve(filename);
+		Path filePath = tempFolder.resolve(generatedTempFileName());
 		uploadedFiles.put(filename, filePath);
 		return getOutputStream(filePath);
 	}
@@ -161,7 +161,8 @@ public class UploadComponent extends DragAndDropWrapper {
 	 */
 	protected void uploadFailed(String fileName) {
 		if (failedCallback != null) {
-			failedCallback.uploadFailed(fileName);
+			Path filePath = uploadedFiles.get(fileName);
+			failedCallback.uploadFailed(fileName, filePath);
 		}
 		uploadedFiles.remove(fileName);
 	}
@@ -283,7 +284,7 @@ public class UploadComponent extends DragAndDropWrapper {
 	 */
 	@FunctionalInterface
 	public interface UploadReceivedHandler {
-		void uploadReceived(String fileName, Path tempPath);
+		void uploadReceived(String fileName, Path filePath);
 	}
 
 	/**
@@ -310,7 +311,7 @@ public class UploadComponent extends DragAndDropWrapper {
 	 */
 	@FunctionalInterface
 	public interface UploadFailedHandler {
-		void uploadFailed(String fileName);
+		void uploadFailed(String fileName, Path filePath);
 	}
 
 	/**
