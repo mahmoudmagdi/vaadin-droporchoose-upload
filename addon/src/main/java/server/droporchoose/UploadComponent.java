@@ -49,7 +49,7 @@ public class UploadComponent extends DragAndDropWrapper {
 	private final Upload upload = new Upload();
 	private final HorizontalLayout panelContent = new HorizontalLayout(dropTextLabel, upload);
 
-	private final UploadReceivedHandler finishedCallback;
+	private UploadReceivedHandler finishedCallback;
 	private UploadStartedHandler startedCallback;
 	private UploadProgressHandler progressCallback;
 	private UploadFailedHandler failedCallback;
@@ -68,9 +68,18 @@ public class UploadComponent extends DragAndDropWrapper {
 	 *            {@link UploadReceivedHandler} called when upload is finished
 	 */
 	public UploadComponent(UploadReceivedHandler finishedCallback) {
-		super(new Panel());
+		this();
 		this.finishedCallback = finishedCallback;
+	}
 
+	/**
+	 * Creates a new {@link UploadComponent}.
+	 * 
+	 * The {@link UploadReceivedHandler} must be set before the first file is
+	 * uploaded.
+	 */
+	public UploadComponent() {
+		super(new Panel());
 		Panel panel = (Panel) getCompositionRoot();
 		panel.addStyleName("doc-panel");
 		panel.setSizeFull();
@@ -148,6 +157,11 @@ public class UploadComponent extends DragAndDropWrapper {
 	 *            name of the received file
 	 */
 	protected void uploadFinished(String fileName) {
+		if (finishedCallback == null) {
+			// must be set before first use
+			throw new IllegalStateException(
+					"UploadReceivedHandler not set. Call setReceivedCallback() before first upload.");
+		}
 		Path filePath = uploadedFiles.get(fileName);
 		finishedCallback.uploadReceived(fileName, filePath);
 		uploadedFiles.remove(fileName);
@@ -239,6 +253,17 @@ public class UploadComponent extends DragAndDropWrapper {
 	 */
 	public void setProgressCallback(UploadProgressHandler progressCallback) {
 		this.progressCallback = progressCallback;
+	}
+
+	/**
+	 * Sets the received callback that is called when an upload finished
+	 * successfully.
+	 * 
+	 * @param finishedCallback
+	 *            {@link UploadReceivedHandler}
+	 */
+	public void setReceivedCallback(UploadReceivedHandler finishedCallback) {
+		this.finishedCallback = finishedCallback;
 	}
 
 	/**

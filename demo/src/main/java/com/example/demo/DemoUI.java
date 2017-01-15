@@ -20,10 +20,16 @@ public class DemoUI extends UI{
 	@Override
 	protected void init(VaadinRequest request){
 
-		UploadComponent uploadComponent = new UploadComponent(this::uploadReceived);
+		UploadComponent uploadComponent = new UploadComponent();
+
+		// not optional
+		uploadComponent.setReceivedCallback(this::uploadReceived);
+
+		// optional callbacks
 		uploadComponent.setStartedCallback(this::uploadStarted);
 		uploadComponent.setProgressCallback(this::uploadProgress);
 		uploadComponent.setFailedCallback(this::uploadFailed);
+
 		uploadComponent.setWidth(500, Unit.PIXELS);
 		uploadComponent.setHeight(300, Unit.PIXELS);
 		uploadComponent.setCaption("File upload");
