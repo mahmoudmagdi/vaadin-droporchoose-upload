@@ -11,7 +11,7 @@ apply plugin: 'fi.jasoft.plugin.vaadin'
 
 // Specify a version for the addon, this can also be done in the
 // parent build.gradle if you want the version to be the same for all projects
-version = '1.0'
+version = '1.1'
 
 // Build for Java 8+
 sourceCompatibility = 1.8
