@@ -88,7 +88,7 @@ public class UploadComponent extends DragAndDropWrapper {
 		dropTextLabel.setSizeUndefined();
 		dropTextLabel.addStyleName("doc-drophint");
 
-		upload.setImmediate(true);
+		upload.setImmediateMode(true);
 		upload.setButtonCaption("choose a file");
 		upload.setReceiver(this::receiveUpload);
 		upload.addStartedListener(event -> uploadStarted(event.getFilename()));

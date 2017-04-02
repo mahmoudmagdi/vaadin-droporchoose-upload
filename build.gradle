@@ -1,23 +1,12 @@
 // Tell Gradle to add Vaadin support
 plugins {
-  id 'fi.jasoft.plugin.vaadin' version '1.1.1'
+  id 'fi.jasoft.plugin.vaadin' version '1.1.6'
 }
 
 vaadin {
-	version '7.7.6'
+	version '8.0.3'
 }
 
 subprojects {
 	apply plugin: 'eclipse'
-
-/*
-	repositories {
-        jcenter()
-    }
-
-	dependencies {
-		compile('com.vaadin:vaadin-server:7.7.6')
-	}
-	
-	*/
 }

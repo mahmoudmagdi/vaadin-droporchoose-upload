@@ -1,13 +1,13 @@
 plugins {
     // Uncomment this if Vaadin plugin is not applied in the parent module
-    // id "fi.jasoft.plugin.vaadin" version "1.1.1"
+    // id "fi.jasoft.plugin.vaadin" version "1.1.6"
 }
 
 // Apply the Vaadin plugin
 apply plugin: 'fi.jasoft.plugin.vaadin'
 
 vaadin {
-    version '7.7.6'
+    version '8.0.3'
     logToConsole true
 }
 // Demo depends on the addon

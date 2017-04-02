@@ -3,7 +3,7 @@ plugins {
     id "maven"
 
     // Uncomment this if Vaadin plugin is not applied in the parent module
-    // id "fi.jasoft.plugin.vaadin" version "1.1.1"
+    // id "fi.jasoft.plugin.vaadin" version "1.1.6"
 }
 
 // Apply the Vaadin plugin
@@ -11,7 +11,7 @@ apply plugin: 'fi.jasoft.plugin.vaadin'
 
 // Specify a version for the addon, this can also be done in the
 // parent build.gradle if you want the version to be the same for all projects
-version = '1.1'
+version = '2.0'
 
 // Build for Java 8+
 sourceCompatibility = 1.8
@@ -24,7 +24,7 @@ artifacts {
 
 // Vaadin configuration
 vaadin {
-	version '7.7.6'
+	version '8.0.3'
     // Addon metadata for the Vaadin Directory
     addon {
       author 'Sebastian Sindelar'
